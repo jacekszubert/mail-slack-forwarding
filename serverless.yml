@@ -1,0 +1,20 @@
+service: mail-slack-forwarding
+
+provider:
+  name: aws
+  runtime: nodejs4.3
+  region: us-east-1
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - kms:Decrypt
+      Resource: arn:aws:kms:...
+
+functions:
+  mail-slack-forwarding:
+    handler: handler.handler
+    events:
+      - sns: mail-slack-forwarding
+    environment:
+      slack_channel: '#mail'
+      slack_hook_kms_encrypted: AQECAHgRDv1...
